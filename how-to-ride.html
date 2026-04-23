@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>How to Ride a Semi-Auto Bike · Sen's Homestay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green-dark:  #2D6A4F;
+      --green-mid:   #52B788;
+      --green-light: #D8F3DC;
+      --orange:      #E76F51;
+      --orange-dark: #C25B3F;
+      --cream:       #F8F4E9;
+      --brown:       #5C3D2E;
+      --text:        #1a1a1a;
+      --muted:       #666;
+      --radius:      14px;
+      --shadow:      0 4px 24px rgba(0,0,0,0.09);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+    img { display: block; width: 100%; object-fit: cover; border-radius: 10px; }
+    a { text-decoration: none; color: inherit; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(255,255,255,0.93); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(45,106,79,0.12); transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.10); }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--green-dark); font-weight: 700; }
+    .nav-logo span { color: var(--orange); }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--brown); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--green-dark); }
+    .nav-cta { background: var(--orange); color: white !important; padding: 10px 22px; border-radius: 50px; font-weight: 500; font-size: 0.88rem; transition: background 0.2s; }
+    .nav-cta:hover { background: var(--orange-dark); }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .nav-hamburger span { width: 24px; height: 2px; background: var(--green-dark); border-radius: 2px; }
+
+    /* HERO */
+    .page-hero {
+      padding: 140px 48px 64px;
+      background: linear-gradient(135deg, #1e4d38 0%, var(--green-dark) 100%);
+      text-align: center; color: white; position: relative; overflow: hidden;
+    }
+    .page-hero::before { content: '🏍️'; position: absolute; font-size: 16rem; opacity: 0.05; bottom: -20px; right: -20px; line-height: 1; }
+    .section-label { font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; color: var(--green-mid); font-weight: 500; margin-bottom: 12px; }
+    .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 14px; line-height: 1.2; }
+    .page-hero .subtitle { color: rgba(255,255,255,0.75); font-style: italic; font-size: 1.05rem; margin-bottom: 28px; }
+    .hero-tags { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .hero-tag { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 0.82rem; padding: 6px 16px; border-radius: 50px; }
+
+    /* PROGRESS NAV */
+    .progress-nav {
+      background: white; padding: 0 48px;
+      display: flex; gap: 0; overflow-x: auto;
+      border-bottom: 2px solid var(--green-light);
+      position: sticky; top: 72px; z-index: 90;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+    .progress-nav::-webkit-scrollbar { display: none; }
+    .pnav-item {
+      padding: 16px 20px; font-size: 0.82rem; font-weight: 500;
+      color: var(--muted); white-space: nowrap; cursor: pointer;
+      border-bottom: 2px solid transparent; margin-bottom: -2px;
+      transition: color 0.2s, border-color 0.2s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .pnav-item:hover { color: var(--green-dark); }
+    .pnav-item.active { color: var(--green-dark); border-bottom-color: var(--green-dark); }
+    .pnav-num { width: 22px; height: 22px; border-radius: 50%; background: var(--green-light); color: var(--green-dark); font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .pnav-item.active .pnav-num { background: var(--green-dark); color: white; }
+
+    /* MAIN LAYOUT */
+    .guide-wrap { max-width: 860px; margin: 0 auto; padding: 64px 48px; display: flex; flex-direction: column; gap: 80px; }
+
+    /* STEP SECTION */
+    .step-section { scroll-margin-top: 140px; }
+    .step-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+    .step-bubble {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--green-dark); color: white;
+      font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .step-header-text h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--green-dark); }
+    .step-header-text p { font-size: 0.88rem; color: var(--muted); margin-top: 3px; }
+
+    /* PHOTO SLOT */
+    .photo-slot {
+      border: 2px dashed rgba(82,183,136,0.4);
+      border-radius: 12px; overflow: hidden;
+      background: rgba(216,243,220,0.3);
+      margin-bottom: 20px; position: relative;
+    }
+    .photo-slot img { border-radius: 10px; }
+    .photo-slot .photo-placeholder {
+      min-height: 220px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
+      color: var(--green-dark); padding: 24px; text-align: center;
+    }
+    .photo-slot .photo-placeholder .ph-icon { font-size: 2.5rem; opacity: 0.5; }
+    .photo-slot .photo-placeholder .ph-filename { font-size: 0.8rem; font-weight: 600; color: var(--green-dark); background: var(--green-light); padding: 4px 12px; border-radius: 50px; }
+    .photo-slot .photo-placeholder .ph-desc { font-size: 0.78rem; color: var(--muted); max-width: 300px; line-height: 1.5; }
+    .photo-slot .photo-caption { background: white; padding: 10px 16px; font-size: 0.8rem; color: var(--muted); font-style: italic; border-top: 1px solid var(--green-light); }
+
+    .photo-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+    .photo-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+    .photo-grid-2 .photo-slot, .photo-grid-3 .photo-slot { margin-bottom: 0; }
+    .photo-grid-2 .photo-placeholder, .photo-grid-3 .photo-placeholder { min-height: 180px; }
+
+    /* CONTENT BLOCKS */
+    .content-card { background: white; border-radius: var(--radius); padding: 24px 28px; box-shadow: var(--shadow); margin-bottom: 16px; }
+    .content-card h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--green-dark); font-weight: 600; margin-bottom: 14px; }
+    .content-card p, .content-card li { font-size: 0.9rem; color: var(--muted); line-height: 1.75; }
+    .content-card ul, .content-card ol { padding-left: 18px; }
+    .content-card li { margin-bottom: 6px; }
+
+    .controls-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .ctrl-item { background: var(--cream); border-radius: 10px; padding: 14px 16px; border-left: 3px solid var(--green-mid); }
+    .ctrl-item.danger { border-left-color: var(--orange); }
+    .ctrl-item h4 { font-size: 0.82rem; font-weight: 700; color: var(--green-dark); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .ctrl-item.danger h4 { color: var(--orange-dark); }
+    .ctrl-item p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+
+    .rule-steps { display: flex; flex-direction: column; gap: 10px; }
+    .rule-step { display: flex; gap: 14px; align-items: center; background: var(--cream); border-radius: 10px; padding: 14px 18px; }
+    .rule-step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--green-dark); color: white; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .rule-step h4 { font-size: 0.9rem; font-weight: 600; color: var(--green-dark); margin-bottom: 3px; }
+    .rule-step p { font-size: 0.82rem; color: var(--muted); }
+    .rule-arrow { font-size: 1.4rem; color: var(--green-mid); flex-shrink: 0; }
+
+    .gear-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .gear-table th { background: var(--green-dark); color: white; padding: 10px 14px; text-align: left; font-weight: 500; font-size: 0.8rem; letter-spacing: 0.5px; }
+    .gear-table td { padding: 10px 14px; border-bottom: 1px solid var(--green-light); color: var(--muted); }
+    .gear-table tr:last-child td { border-bottom: none; }
+    .gear-table tr:nth-child(even) td { background: rgba(216,243,220,0.2); }
+
+    .alert-box { border-radius: 10px; padding: 16px 20px; margin-bottom: 16px; display: flex; gap: 14px; align-items: flex-start; }
+    .alert-box.warning { background: rgba(231,111,81,0.08); border: 1px solid rgba(231,111,81,0.3); }
+    .alert-box.info { background: rgba(82,183,136,0.1); border: 1px solid rgba(82,183,136,0.3); }
+    .alert-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .alert-box h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; }
+    .alert-box.warning h4 { color: var(--orange-dark); }
+    .alert-box.info h4 { color: var(--green-dark); }
+    .alert-box p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+    /* DIVIDER */
+    .step-divider { border: none; border-top: 2px dashed rgba(82,183,136,0.25); }
+
+    /* PRACTICE SECTION */
+    #section-practice { background: var(--green-dark); border-radius: 20px; padding: 40px; color: white; }
+    #section-practice .step-header .step-bubble { background: white; color: var(--green-dark); }
+    #section-practice .step-header-text h2 { color: white; }
+    #section-practice .step-header-text p { color: rgba(255,255,255,0.65); }
+    .practice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+    .practice-item { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 18px; }
+    .practice-item h4 { color: white; font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+    .practice-item p { font-size: 0.82rem; color: rgba(255,255,255,0.65); line-height: 1.5; }
+
+    /* BACK LINK */
+    .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--green-dark); font-size: 0.88rem; font-weight: 500; padding: 10px 20px; background: white; border-radius: 50px; box-shadow: var(--shadow); transition: transform 0.2s; }
+    .back-link:hover { transform: translateX(-2px); }
+
+    /* CTA */
+    .guide-cta { background: white; border-radius: var(--radius); padding: 32px; text-align: center; box-shadow: var(--shadow); }
+    .guide-cta h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--green-dark); margin-bottom: 8px; }
+    .guide-cta p { color: var(--muted); font-size: 0.88rem; margin-bottom: 20px; }
+    .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-wa { background: #25D366; color: white; padding: 12px 26px; border-radius: 50px; font-weight: 500; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; transition: filter 0.2s, transform 0.2s; }
+    .btn-wa:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .btn-bikes { background: var(--green-dark); color: white; padding: 12px 26px; border-radius: 50px; font-weight: 500; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; transition: background 0.2s, transform 0.2s; }
+    .btn-bikes:hover { background: #1e4d38; transform: translateY(-1px); }
+
+    footer { background: #1a3d2a; color: rgba(255,255,255,0.5); text-align: center; padding: 24px; font-size: 0.82rem; }
+    footer a { color: var(--green-mid); }
+
+    .wa-float { position: fixed; bottom: 28px; right: 28px; width: 58px; height: 58px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.45); z-index: 998; transition: transform 0.2s; }
+    .wa-float:hover { transform: scale(1.1); }
+    .wa-float svg { width: 30px; fill: white; }
+    .wa-tooltip { position: absolute; right: 68px; background: var(--brown); color: white; font-size: 0.8rem; white-space: nowrap; padding: 7px 14px; border-radius: 8px; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+    .wa-float:hover .wa-tooltip { opacity: 1; }
+
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: white; padding: 24px; gap: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+      .nav-links.open { display: flex; }
+      .nav-hamburger { display: flex; }
+      .page-hero { padding: 120px 24px 52px; }
+      .progress-nav { padding: 0 16px; top: 65px; }
+      .guide-wrap { padding: 40px 20px; gap: 56px; }
+      .photo-grid-2, .photo-grid-3 { grid-template-columns: 1fr; }
+      .controls-grid { grid-template-columns: 1fr; }
+      .practice-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">Sen's <span>·</span> Homestay</a>
+  <div class="nav-links" id="navLinks">
+    <a href="rooms.html">Rooms</a>
+    <a href="motorbike.html">Motorbike</a>
+    <a href="tours.html">Tours</a>
+    <a href="explore.html">Explore</a>
+    <a href="contact.html">Contact</a>
+    <a href="https://wa.me/84828401668?text=Hi%20Sen!" class="nav-cta" target="_blank">💬 WhatsApp</a>
+  </div>
+  <div class="nav-hamburger" id="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <p class="section-label">Rider's Guide · Semi-Automatic</p>
+  <h1>How to Ride a<br>Semi-Auto Bike</h1>
+  <p class="subtitle">No hand clutch — Easy & Safe for Mountain Roads</p>
+  <div class="hero-tags">
+    <span class="hero-tag">🏍️ Wave Alpha · Future 125 · Yamaha PG-1</span>
+    <span class="hero-tag">📖 5 Steps to Ride Safely</span>
+  </div>
+</div>
+
+<!-- PROGRESS NAV -->
+<nav class="progress-nav" id="progressNav">
+  <div class="pnav-item active" onclick="scrollTo('section-controls')"><span class="pnav-num">1</span> Know Your Controls</div>
+  <div class="pnav-item" onclick="scrollTo('section-golden')"><span class="pnav-num">2</span> The Golden Rule</div>
+  <div class="pnav-item" onclick="scrollTo('section-gears')"><span class="pnav-num">3</span> Which Gear?</div>
+  <div class="pnav-item" onclick="scrollTo('section-braking')"><span class="pnav-num">4</span> Braking & Downhills</div>
+  <div class="pnav-item" onclick="scrollTo('section-practice')"><span class="pnav-num">5</span> Practice First!</div>
+</nav>
+
+<div class="guide-wrap">
+
+  <!-- BACK LINK -->
+  <a href="motorbike.html" class="back-link fade-in">← Back to Motorbike Rental</a>
+
+  <!-- ─── STEP 1: CONTROLS ─── -->
+  <section class="step-section fade-in" id="section-controls">
+    <div class="step-header">
+      <div class="step-bubble">1</div>
+      <div class="step-header-text">
+        <h2>Know Your Controls</h2>
+        <p>Before you start — understand what each hand and foot does</p>
+      </div>
+    </div>
+
+    <!--
+      ẢNH TỔNG QUAN: images/how-to-ride/controls-overview.jpg
+      Kích thước: 1200x600px
+      Nội dung: ảnh xe nhìn từ bên cạnh, có mũi tên/chú thích 4 điểm điều khiển
+      (tay trái, tay phải, chân trái, chân phải)
+    -->
+    <div class="photo-slot">
+      <img src="images/how-to-ride/controls-overview.jpg" alt="Bike controls overview"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div class="photo-placeholder">
+        <div class="ph-icon">📸</div>
+        <span class="ph-filename">images/how-to-ride/controls-overview.jpg</span>
+        <p class="ph-desc">Ảnh xe từ bên cạnh, có chú thích 4 điểm điều khiển: tay trái, tay phải, chân trái, chân phải · 1200×600px</p>
+      </div>
+      <div class="photo-caption">Overview: the 4 controls you need to know</div>
+    </div>
+
+    <div class="controls-grid">
+      <div class="ctrl-item danger">
+        <h4>🤚 Left Hand — DO NOTHING</h4>
+        <p>There is <strong>no lever</strong> on the left side. It's not a brake and not a clutch. Keep it relaxed on the grip.</p>
+      </div>
+      <div class="ctrl-item">
+        <h4>✋ Right Hand — Throttle + Brake</h4>
+        <p><strong>Twist back</strong> = gas. <strong>Squeeze lever</strong> = front brake. Your main hand for going and slowing.</p>
+      </div>
+      <div class="ctrl-item">
+        <h4>🦶 Left Foot — Gear Shifter</h4>
+        <p><strong>Toes forward</strong> = shift UP (N→1→2→3→4)<br><strong>Heel back</strong> = shift DOWN (4→3→2→1→N)</p>
+      </div>
+      <div class="ctrl-item">
+        <h4>🦵 Right Foot — Rear Brake</h4>
+        <p>Press <strong>down</strong> to slow the bike. This is your primary brake — use it more than the front.</p>
+      </div>
+    </div>
+
+    <!--
+      ẢNH CHI TIẾT x2:
+      images/how-to-ride/left-foot-gear.jpg · 800x600px
+        → ảnh cận cảnh bàn đạp sang số bên chân trái, mũi tên chỉ hướng đạp
+      images/how-to-ride/right-foot-brake.jpg · 800x600px
+        → ảnh cận cảnh phanh chân bên phải, mũi tên chỉ hướng đạp
+    -->
+    <div class="photo-grid-2">
+      <div class="photo-slot">
+        <img src="images/how-to-ride/left-foot-gear.jpg" alt="Left foot gear shifter"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="photo-placeholder">
+          <div class="ph-icon">🦶</div>
+          <span class="ph-filename">left-foot-gear.jpg</span>
+          <p class="ph-desc">Cận cảnh bàn đạp số, mũi tên chỉ hướng · 800×600px</p>
+        </div>
+        <div class="photo-caption">Left foot: gear shifter — toes forward to go up, heel to go down</div>
+      </div>
+      <div class="photo-slot">
+        <img src="images/how-to-ride/right-foot-brake.jpg" alt="Right foot rear brake"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="photo-placeholder">
+          <div class="ph-icon">🦵</div>
+          <span class="ph-filename">right-foot-brake.jpg</span>
+          <p class="ph-desc">Cận cảnh phanh chân phải · 800×600px</p>
+        </div>
+        <div class="photo-caption">Right foot: rear brake — press down to slow</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="step-divider">
+
+  <!-- ─── STEP 2: GOLDEN RULE ─── -->
+  <section class="step-section fade-in" id="section-golden">
+    <div class="step-header">
+      <div class="step-bubble">2</div>
+      <div class="step-header-text">
+        <h2>The Golden Rule</h2>
+        <p>Master this 3-step rhythm and shifting will feel natural</p>
+      </div>
+    </div>
+
+    <div class="alert-box warning">
+      <div class="alert-icon">⚠️</div>
+      <div>
+        <h4>If you don't release the gas while shifting…</h4>
+        <p>The bike will jerk forward violently. Always release the throttle completely before clicking the gear lever.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h3>The 3-Step Rhythm</h3>
+      <div class="rule-steps">
+        <div class="rule-step">
+          <div class="rule-step-num">1</div>
+          <div>
+            <h4>Release</h4>
+            <p>Completely let go of the throttle (right hand). Zero gas.</p>
+          </div>
+          <div class="rule-arrow">→</div>
+        </div>
+        <div class="rule-step">
+          <div class="rule-step-num">2</div>
+          <div>
+            <h4>Shift</h4>
+            <p>Click the gear lever with your left foot. One click at a time.</p>
+          </div>
+          <div class="rule-arrow">→</div>
+        </div>
+        <div class="rule-step">
+          <div class="rule-step-num">3</div>
+          <div>
+            <h4>Throttle</h4>
+            <p>Gently twist the gas again to continue riding.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--
+      ẢNH x3 (sequence):
+      images/how-to-ride/shift-step1-release.jpg · 800x600px → tay phải thả ga
+      images/how-to-ride/shift-step2-shift.jpg   · 800x600px → chân trái đạp số
+      images/how-to-ride/shift-step3-throttle.jpg· 800x600px → tay phải vặn ga nhẹ
+    -->
+    <div class="photo-grid-3">
+      <div class="photo-slot">
+        <img src="images/how-to-ride/shift-step1-release.jpg" alt="Step 1: Release throttle"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="photo-placeholder">
+          <div class="ph-icon">✋</div>
+          <span class="ph-filename">shift-step1-release.jpg</span>
+          <p class="ph-desc">Tay phải thả ga · 800×600px</p>
+        </div>
+        <div class="photo-caption">① Release — let go of gas</div>
+      </div>
+      <div class="photo-slot">
+        <img src="images/how-to-ride/shift-step2-shift.jpg" alt="Step 2: Shift gear"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="photo-placeholder">
+          <div class="ph-icon">🦶</div>
+          <span class="ph-filename">shift-step2-shift.jpg</span>
+          <p class="ph-desc">Chân trái đạp số · 800×600px</p>
+        </div>
+        <div class="photo-caption">② Shift — click gear with left foot</div>
+      </div>
+      <div class="photo-slot">
+        <img src="images/how-to-ride/shift-step3-throttle.jpg" alt="Step 3: Throttle"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="photo-placeholder">
+          <div class="ph-icon">🤙</div>
+          <span class="ph-filename">shift-step3-throttle.jpg</span>
+          <p class="ph-desc">Tay phải vặn ga nhẹ · 800×600px</p>
+        </div>
+        <div class="photo-caption">③ Throttle — gently twist gas again</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="step-divider">
+
+  <!-- ─── STEP 3: GEARS ─── -->
+  <section class="step-section fade-in" id="section-gears">
+    <div class="step-header">
+      <div class="step-bubble">3</div>
+      <div class="step-header-text">
+        <h2>Which Gear to Use?</h2>
+        <p>Choosing the right gear keeps the engine happy and you safe</p>
+      </div>
+    </div>
+
+    <!--
+      ẢNH: images/how-to-ride/gear-indicator.jpg · 800x500px
+      Nội dung: ảnh đồng hồ xe hiển thị số gear (N, 1, 2, 3, 4), khoanh tròn vị trí chỉ số
+    -->
+    <div class="photo-slot">
+      <img src="images/how-to-ride/gear-indicator.jpg" alt="Gear indicator on dashboard"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div class="photo-placeholder">
+        <div class="ph-icon">🎛️</div>
+        <span class="ph-filename">images/how-to-ride/gear-indicator.jpg</span>
+        <p class="ph-desc">Ảnh đồng hồ xe hiển thị số gear N/1/2/3/4, khoanh tròn đỏ vào vị trí chỉ số · 800×500px</p>
+      </div>
+      <div class="photo-caption">The gear indicator on your dashboard — always know which gear you're in</div>
+    </div>
+
+    <div class="content-card">
+      <h3>Gear Guide</h3>
+      <table class="gear-table">
+        <thead>
+          <tr><th>Gear</th><th>When to use</th><th>Situation</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>N (Neutral)</strong></td><td>Stopped only</td><td>Waiting at lights, parking</td></tr>
+          <tr><td><strong>1st</strong></td><td>Starting + steep uphill</td><td>Moving from stop, sharp mountain climbs</td></tr>
+          <tr><td><strong>2nd</strong></td><td>Slow roads, tight curves</td><td>Villages, hairpin bends, descents</td></tr>
+          <tr><td><strong>3rd</strong></td><td>Normal roads</td><td>Provincial roads, moderate speed</td></tr>
+          <tr><td><strong>4th</strong></td><td>Open flat roads</td><td>Highway, cruising at full speed</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert-box info">
+      <div class="alert-icon">💡</div>
+      <div>
+        <h4>Pro tip: Shift DOWN before climbing</h4>
+        <p>Drop to 2nd or 1st gear before you reach a steep hill — don't wait until the engine is struggling. Keeping momentum is much easier than recovering it.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="step-divider">
+
+  <!-- ─── STEP 4: BRAKING ─── -->
+  <section class="step-section fade-in" id="section-braking">
+    <div class="step-header">
+      <div class="step-bubble">4</div>
+      <div class="step-header-text">
+        <h2>Braking & Downhills</h2>
+        <p>The most important safety skill on mountain roads</p>
+      </div>
+    </div>
+
+    <!--
+      ẢNH x2:
+      images/how-to-ride/rear-brake-foot.jpg · 800x600px
+        → ảnh cận cảnh chân đạp phanh sau, đường núi phía sau
+      images/how-to-ride/downhill-gear.jpg · 800x600px
+        → ảnh xe đang xuống dốc, chú thích "stay in gear 2–3"
+    -->
+    <div class="photo-grid-2">
+      <div class="photo-slot">
+        <img src="images/how-to-ride/rear-brake-foot.jpg" alt="Using rear brake"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="photo-placeholder">
+          <div class="ph-icon">🦵</div>
+          <span class="ph-filename">rear-brake-foot.jpg</span>
+          <p class="ph-desc">Cận cảnh chân đạp phanh sau, nền đường núi · 800×600px</p>
+        </div>
+        <div class="photo-caption">Always prioritize the rear brake (right foot)</div>
+      </div>
+      <div class="photo-slot">
+        <img src="images/how-to-ride/downhill-gear.jpg" alt="Engine braking on downhill"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="photo-placeholder">
+          <div class="ph-icon">⛰️</div>
+          <span class="ph-filename">downhill-gear.jpg</span>
+          <p class="ph-desc">Xe xuống đèo, chú thích "Stay in Gear 2–3" · 800×600px</p>
+        </div>
+        <div class="photo-caption">On steep descents — stay in Gear 2 or 3, never Neutral</div>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h3>Braking Rules</h3>
+      <ul>
+        <li><strong>Prioritize rear brake (right foot)</strong> — safer, prevents front-wheel lockup.</li>
+        <li><strong>Never suddenly grab the front brake</strong> (right hand lever) — especially on gravel or wet roads. It can lock the front wheel and cause a fall.</li>
+        <li><strong>Use both brakes gently together</strong> for smooth, controlled stops.</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h3>Engine Braking — For Steep Descents</h3>
+      <ul>
+        <li><strong>Never use Neutral going downhill.</strong> Always stay in Gear 2 or 3.</li>
+        <li>Let the engine naturally slow the bike — this is "engine braking."</li>
+        <li>It prevents your brakes from overheating on long descents (brake fade).</li>
+        <li>Use light, gentle taps on the rear brake to supplement when needed.</li>
+      </ul>
+    </div>
+
+    <div class="alert-box warning">
+      <div class="alert-icon">🔴</div>
+      <div>
+        <h4>Never coast downhill in Neutral!</h4>
+        <p>With no engine resistance, you pick up speed fast and have only your brakes. On long mountain passes this can cause brake overheating and brake failure. Stay in gear.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="step-divider">
+
+  <!-- ─── STEP 5: PRACTICE ─── -->
+  <section class="step-section fade-in" id="section-practice">
+    <div class="step-header">
+      <div class="step-bubble">5</div>
+      <div class="step-header-text">
+        <h2>⚠️ Practice Before You Go!</h2>
+        <p>The mountain roads of Cao Bang are beautiful — but unforgiving to the unprepared</p>
+      </div>
+    </div>
+
+    <!--
+      ẢNH: images/how-to-ride/practice-parking.jpg · 1200x600px
+      Nội dung: ai đó đang tập đi xe trong bãi đỗ, không khí thoải mái
+    -->
+    <div class="photo-slot">
+      <img src="images/how-to-ride/practice-parking.jpg" alt="Practice in parking area"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div class="photo-placeholder">
+        <div class="ph-icon">🅿️</div>
+        <span class="ph-filename">images/how-to-ride/practice-parking.jpg</span>
+        <p class="ph-desc">Ai đó đang tập đi xe trong bãi đỗ, không khí thoải mái và vui · 1200×600px</p>
+      </div>
+      <div class="photo-caption">Take time to practice in our parking area — Sen is always happy to help you get started</div>
+    </div>
+
+    <div class="practice-grid">
+      <div class="practice-item">
+        <h4>🔁 Drill the Golden Rule</h4>
+        <p>Practice Release → Shift → Throttle slowly in the parking area until it feels automatic. 10 minutes here saves hours of struggle on the road.</p>
+      </div>
+      <div class="practice-item">
+        <h4>🦵 Practice Foot Braking</h4>
+        <p>Get used to reaching for the rear brake (right foot) instinctively. In an emergency, your foot should move before you think.</p>
+      </div>
+      <div class="practice-item">
+        <h4>⚖️ Balance at Low Speed</h4>
+        <p>Practice slow turns and figure-eights. Mountain roads have tight hairpin bends where low-speed balance is essential.</p>
+      </div>
+      <div class="practice-item">
+        <h4>🏔️ Get Comfortable, Then Go</h4>
+        <p>Only head out when you feel genuinely confident — not just "good enough." Sen can ride with you for a short test if needed.</p>
+      </div>
+    </div>
+
+    <div class="alert-box info" style="margin-top:20px">
+      <div class="alert-icon">💬</div>
+      <div>
+        <h4>Not sure? Ask Sen!</h4>
+        <p>If you're unsure about the terrain or your riding level, we can recommend a guided tour by car or motorbike instead. Your safety always comes first.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="guide-cta fade-in">
+    <h3>Ready to hit the road?</h3>
+    <p>Message Sen to book your bike — we'll make sure you're fully prepared before you go.</p>
+    <div class="cta-btns">
+      <a href="https://wa.me/84828401668?text=Hi%20Sen!%20I%27d%20like%20to%20rent%20a%20motorbike." class="btn-wa" target="_blank">
+        <svg viewBox="0 0 24 24" fill="white" width="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Book a Bike
+      </a>
+      <a href="motorbike.html" class="btn-bikes">🏍️ See All Bikes</a>
+    </div>
+  </div>
+
+</div><!-- end guide-wrap -->
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Sen's Homestay · Cao Bang, Vietnam &nbsp;·&nbsp;
+     <a href="https://wa.me/84828401668" target="_blank">WhatsApp</a> &nbsp;·&nbsp;
+     Made with ❤️ in Cao Bang
+  </p>
+</footer>
+
+<!-- WA FLOAT -->
+<a href="https://wa.me/84828401668?text=Hi%20Sen!" class="wa-float" target="_blank">
+  <div class="wa-tooltip">Chat with Sen</div>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+    updateProgressNav();
+  });
+  function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+
+  // Fade-in
+  const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.08 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+  // Progress nav scroll
+  function scrollTo(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  }
+  function updateProgressNav() {
+    const sections = ['section-controls','section-golden','section-gears','section-braking','section-practice'];
+    const items = document.querySelectorAll('.pnav-item');
+    let active = 0;
+    sections.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top < 200) active = i;
+    });
+    items.forEach((item, i) => item.classList.toggle('active', i === active));
+  }
+</script>
+</body>
+</html>
